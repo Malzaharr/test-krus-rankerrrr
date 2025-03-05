@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
 const app = express();
-const port = 3000;
+const port = 3306;
 
 app.use(cors({
     origin: ['https://spiffy-peony-6368f0.netlify.app','http://localhost:3000','http://37.212.31.223:3307'], // Замените на свой домен Netlify
