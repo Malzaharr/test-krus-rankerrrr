@@ -10,20 +10,39 @@ app.use(cors({
     credentials: true
 }));
 
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'diplom'
-});
+function createConnection() {
+    const db = mysql.createConnection({
+        host: 'localhost', // Значение по умолчанию для локальной разработки
+        user: 'root',      // Значение по умолчанию для локальной разработки
+        password: '',  // Значение по умолчанию для локальной разработки
+        database: 'diplom' // Значение по умолчанию для локальной разработки
+    });
 
-db.connect((err) => {
-    if (err) {
-        console.error('Ошибка подключения к базе данных:', err);
-        return;
-    }
-    console.log('Успешно подключено к базе данных!');
-});
+    db.connect((err) => {
+        if (err) {
+            console.error('Ошибка подключения к базе данных:', err);
+            console.error('Попытка переподключения через 5 секунд...');
+            setTimeout(createConnection, 5000); // Повторная попытка через 5 секунд
+            return;
+        }
+        console.log('Успешно подключено к базе данных!');
+    });
+
+    db.on('error', (err) => {
+        console.error('Ошибка базы данных:', err);
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+            console.error('Соединение с базой данных потеряно. Попытка переподключения...');
+            setTimeout(createConnection, 5000); // Повторная попытка через 5 секунд
+        } else {
+            throw err; // Перебросить другие ошибки
+        }
+    });
+
+    return db;
+}
+
+// Создаем соединение с базой данных
+const db = createConnection();
 
 const getTableData = (table, res) => {
     const sql = `SELECT * FROM ${table}`;
