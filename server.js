@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
 const app = express();
-const port = process.env.DB_PORT || 3307;
+const port = 3000;
 
 app.use(cors({
     origin: ['https://spiffy-peony-6368f0.netlify.app','http://localhost:3000','http://37.212.31.223:3307'], // Замените на свой домен Netlify
@@ -12,10 +12,10 @@ app.use(cors({
 
 function createConnection() {
     const db = mysql.createConnection({
-        host: 'localhost',// Значение по умолчанию для локальной разработки
+        host: '127.0.0.1',// Значение по умолчанию для локальной разработки
         user: 'root',     // Значение по умолчанию для локальной разработки
         password: '',  // Значение по умолчанию для локальной разработки
-        database: 'diplom' // Значение по умолчанию для локальной разработки
+        database: 'test' // Значение по умолчанию для локальной разработки
     });
 
     db.connect((err) => {
