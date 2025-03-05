@@ -12,7 +12,8 @@ app.use(cors({
 
 function createConnection() {
     const db = mysql.createConnection({
-        host: 'localhost', // Значение по умолчанию для локальной разработки
+        host: 'localhost',
+        port: 3307,// Значение по умолчанию для локальной разработки
         user: 'root',      // Значение по умолчанию для локальной разработки
         password: '',  // Значение по умолчанию для локальной разработки
         database: 'diplom' // Значение по умолчанию для локальной разработки
